@@ -1,0 +1,9 @@
+[package]
+name = "learning_open_gl"
+version = "0.1.0"
+authors = ["arielalvarez <ariel.alvarez.android@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+sdl2 = { version = "0.31.0", features = ["bundled", "static-link"] }
+
