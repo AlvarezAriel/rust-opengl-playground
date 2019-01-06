@@ -34,14 +34,17 @@ fn main() {
     use std::ffi::CString;
 
     let vert_shader = render_gl::Shader::from_vert_source(
-        &CString::new(include_str!("triangle.vert")).unwrap()
+        &gl,
+        &CString::new(include_str!("triangle.vert")).unwrap(),
     ).unwrap();
 
     let frag_shader = render_gl::Shader::from_frag_source(
+        &gl,
         &CString::new(include_str!("triangle.frag")).unwrap()
     ).unwrap();
 
     let shader_program = render_gl::Program::from_shaders(
+        &gl,
         &[vert_shader, frag_shader]
     ).unwrap();
 
@@ -113,7 +116,7 @@ fn main() {
             gl::DrawArrays(
                 gl::TRIANGLES, // mode
                 0, // starting index in the enabled arrays
-                3 // number of indices to be rendered
+                3, // number of indices to be rendered
             );
         }
 
