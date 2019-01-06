@@ -1,29 +1,28 @@
 #[macro_use] extern crate failure;
-#[macro_use] extern crate render_gl_derive;
-
-use std::ffi::{CString, CStr};
-
-extern crate sdl2;
 extern crate gl;
-
-pub mod resources;
-pub mod render_gl;
-
-pub use crate::resources::Resources;
-pub use crate::render_gl::data;
+#[macro_use] extern crate render_gl_derive;
+extern crate sdl2;
 
 use std::path::Path;
 
 use failure::err_msg;
 
+pub use crate::render_gl::data;
+pub use crate::resources::Resources;
+
+
+pub mod resources;
+pub mod render_gl;
+
 #[derive(VertexAttribPointers)]
 #[derive(Copy, Clone, Debug)]
 #[repr(C, packed)]
 struct Vertex {
+    #[location = "0"]
     pos: data::f32_f32_f32,
+    #[location = "1"]
     clr: data::f32_f32_f32,
 }
-
 fn main() {
     if let Err(e) = run() {
         println!("{}", failure_to_string(e));
@@ -48,7 +47,7 @@ fn run() -> Result<(), failure::Error> {
         .build()
         .unwrap();
 
-    let gl_context = window.gl_create_context().unwrap();
+    let _gl_context = window.gl_create_context().unwrap();
     let gl = gl::Gl::load_with(|s| video_subsystem.gl_get_proc_address(s) as *const std::os::raw::c_void);
 
     unsafe {
