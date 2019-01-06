@@ -3,10 +3,14 @@ use std::ffi::{CString, CStr};
 extern crate sdl2;
 extern crate gl;
 
-
+pub mod resources;
 pub mod render_gl;
 
+pub use crate::resources::Resources;
+use std::path::Path;
+
 fn main() {
+    let res = Resources::from_relative_exe_path(Path::new("assets")).unwrap();
     let sdl = sdl2::init().unwrap();
 
 
@@ -33,20 +37,7 @@ fn main() {
 
     use std::ffi::CString;
 
-    let vert_shader = render_gl::Shader::from_vert_source(
-        &gl,
-        &CString::new(include_str!("triangle.vert")).unwrap(),
-    ).unwrap();
-
-    let frag_shader = render_gl::Shader::from_frag_source(
-        &gl,
-        &CString::new(include_str!("triangle.frag")).unwrap()
-    ).unwrap();
-
-    let shader_program = render_gl::Program::from_shaders(
-        &gl,
-        &[vert_shader, frag_shader]
-    ).unwrap();
+    let shader_program = render_gl::Program::from_res(&gl, &res, "shaders/triangle").unwrap();
 
     shader_program.set_used();
 
